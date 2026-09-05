@@ -1,0 +1,83 @@
+/* Design tokens. Light "paper" is the base; dark redefines only colours. */
+
+:root {
+  color-scheme: light;
+
+  --bg: #e9e6db;
+  --bg-rule: #dfdbcb;
+  --surface: #fffdf7;
+  --surface-sunk: #f3f0e5;
+  --surface-hover: #fbf9f1;
+  --text: #1e212a;
+  --text-soft: #565b69;
+  --text-faint: #83879a;
+  --line: #cec8b3;
+  --line-soft: #e0dbca;
+  --accent: #2c5aa0;
+  --accent-text: #2c5aa0;
+  --accent-wash: rgba(44, 90, 160, 0.1);
+  --danger: #a8392c;
+  --danger-wash: #f7e9e6;
+  --danger-line: #e0bcb4;
+  --success: #2f6249;
+  --success-wash: #e4eee8;
+  --on-accent: #fffdf7;
+
+  --shadow-card: 3px 4px 0 rgba(30, 33, 42, 0.08);
+  --shadow-card-hover: 4px 7px 0 rgba(30, 33, 42, 0.16);
+  --shadow-pop: 0 22px 48px -14px rgba(30, 33, 42, 0.45);
+  --overlay: rgba(36, 33, 26, 0.58);
+  --thumb-bg: #ffffff;
+  --thumb-mix: normal;
+
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 12px;
+
+  --rail-w: 318px;
+  --dur: 160ms;
+  --ease: cubic-bezier(0.32, 0.72, 0.36, 1);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #16171b;
+  --bg-rule: #1b1d22;
+  --surface: #212329;
+  --surface-sunk: #1a1c21;
+  --surface-hover: #282b32;
+  --text: #e9e7e0;
+  --text-soft: #a8a79f;
+  --text-faint: #7e7d77;
+  --line: #34373f;
+  --line-soft: #2b2e35;
+  --accent: #7aa5e6;
+  --accent-text: #96b9ee;
+  --accent-wash: rgba(122, 165, 230, 0.14);
+  --danger: #e2806f;
+  --danger-wash: #3a231f;
+  --danger-line: #63382f;
+  --success: #74c39d;
+  --success-wash: #1e3229;
+  --on-accent: #14161a;
+
+  --shadow-card: 3px 4px 0 rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 4px 7px 0 rgba(0, 0, 0, 0.55);
+  --shadow-pop: 0 22px 48px -14px rgba(0, 0, 0, 0.7);
+  --overlay: rgba(8, 9, 11, 0.72);
+  --thumb-bg: #d9d7d0;
+  --thumb-mix: multiply;
+}
