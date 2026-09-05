@@ -81,3 +81,37 @@
   --thumb-bg: #d9d7d0;
   --thumb-mix: multiply;
 }
+
+/* Fallback for the system preference before/without the theme script. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --bg: #16171b;
+    --bg-rule: #1b1d22;
+    --surface: #212329;
+    --surface-sunk: #1a1c21;
+    --surface-hover: #282b32;
+    --text: #e9e7e0;
+    --text-soft: #a8a79f;
+    --text-faint: #7e7d77;
+    --line: #34373f;
+    --line-soft: #2b2e35;
+    --accent: #7aa5e6;
+    --accent-text: #96b9ee;
+    --accent-wash: rgba(122, 165, 230, 0.14);
+    --danger: #e2806f;
+    --danger-wash: #3a231f;
+    --danger-line: #63382f;
+    --success: #74c39d;
+    --success-wash: #1e3229;
+    --on-accent: #14161a;
+
+    --shadow-card: 3px 4px 0 rgba(0, 0, 0, 0.4);
+    --shadow-card-hover: 4px 7px 0 rgba(0, 0, 0, 0.55);
+    --shadow-pop: 0 22px 48px -14px rgba(0, 0, 0, 0.7);
+    --overlay: rgba(8, 9, 11, 0.72);
+    --thumb-bg: #d9d7d0;
+    --thumb-mix: multiply;
+  }
+}
