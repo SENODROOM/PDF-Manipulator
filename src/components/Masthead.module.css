@@ -1,0 +1,69 @@
+.masthead {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  padding: 18px clamp(16px, 3.5vw, 44px);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.mark {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--text);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.mark svg {
+  transform: rotate(-8deg);
+}
+
+.wordmark {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.tagline {
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.badge svg {
+  color: var(--success);
+}
+
+@media (max-width: 860px) {
+  .tagline,
+  .badge {
+    display: none;
+  }
+}

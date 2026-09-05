@@ -1,8 +1,31 @@
-import { PDFDocument } from 'pdf-lib'
-import * as pdfjsLib from 'pdfjs-dist'
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
+/*
+ * Both PDF libraries are heavy and neither is needed until the user actually
+ * opens a file, so they are code-split behind dynamic imports and cached after
+ * the first use. `?url` above is only a string, so it stays a static import.
+ */
+
+let pdfjsPromise
+let pdfLibPromise
+
+function loadPdfjs() {
+  pdfjsPromise ??= import('pdfjs-dist').then((pdfjsLib) => {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
+    return pdfjsLib
+  })
+  return pdfjsPromise
+}
+
+function loadPdfLib() {
+  pdfLibPromise ??= import('pdf-lib')
+  return pdfLibPromise
+}
+
+/** Optional warm-up so the first file open doesn't wait on a network round trip. */
+export function prefetchPdfEngine() {
+  loadPdfjs().catch(() => {})
+}
 
 /** Cap the backing-store scale so huge pages don't blow past canvas limits. */
 const MAX_PIXEL_RATIO = 2
@@ -33,6 +56,7 @@ function messageFor(err) {
  */
 export async function openDocument(bytes) {
   try {
+    const pdfjsLib = await loadPdfjs()
     const task = pdfjsLib.getDocument({
       data: bytes.slice(),
       isEvalSupported: false,
@@ -105,6 +129,7 @@ export async function buildPdf(sourceBytes, keepIndices) {
     throw new PdfError('Keep at least one page to export.')
   }
   try {
+    const { PDFDocument } = await loadPdfLib()
     const source = await PDFDocument.load(sourceBytes, { ignoreEncryption: true })
     const output = await PDFDocument.create()
     const copied = await output.copyPages(source, keepIndices)

@@ -1,0 +1,229 @@
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  padding: var(--s5) var(--s4) var(--s6);
+  border-right: 1px solid var(--line);
+  background: var(--surface-sunk);
+  overflow-y: auto;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: var(--s4);
+}
+
+.fileHead {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+}
+
+.fileIcon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--text-soft);
+  background: var(--surface-sunk);
+}
+
+.fileName {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.fileMeta {
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-soft);
+}
+
+.section {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: var(--s4);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  margin-bottom: var(--s3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.picks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s2);
+}
+
+.picks > :last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.tally {
+  display: flex;
+  align-items: stretch;
+  gap: var(--s3);
+}
+
+.stat {
+  flex: 1;
+  padding: var(--s3);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunk);
+}
+
+.statKept {
+  border-color: color-mix(in srgb, var(--success) 32%, transparent);
+  background: var(--success-wash);
+}
+
+.statRemoved {
+  border-color: color-mix(in srgb, var(--danger) 28%, transparent);
+  background: var(--danger-wash);
+}
+
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.statKept .statValue {
+  color: var(--success);
+}
+
+.statRemoved .statValue {
+  color: var(--danger);
+}
+
+.statLabel {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--text-soft);
+}
+
+.ranges {
+  margin-top: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px dashed var(--line-soft);
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+.rangeList {
+  font-family: var(--font-mono);
+  color: var(--danger);
+  word-break: break-word;
+}
+
+.export {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.warn {
+  font-size: 12px;
+  color: var(--danger);
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  padding-top: var(--s2);
+}
+
+/* --- progress --- */
+
+.progress {
+  margin-top: var(--s3);
+}
+
+.track {
+  height: 5px;
+  border-radius: 99px;
+  background: var(--surface-sunk);
+  border: 1px solid var(--line-soft);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 240ms var(--ease);
+}
+
+.progressLabel {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- idle guidance --- */
+
+.guide {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  padding: var(--s4);
+  color: var(--text-soft);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.guideTitle {
+  margin-bottom: var(--s2);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.steps {
+  margin: 0;
+  padding-left: 1.1em;
+  display: grid;
+  gap: 6px;
+}
+
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 1px 5px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .rail {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    overflow: visible;
+  }
+}

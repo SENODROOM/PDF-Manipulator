@@ -62,8 +62,42 @@ function reducer(state, action) {
     case 'export-done':
       return { ...state, phase: 'ready' }
 
-    case 'select':
-      return withSelection(state, action.removed)
+    case 'toggle': {
+      const { pageNumber, extend, anchor } = action
+      const next = new Set(state.removed)
+      const marking = !next.has(pageNumber)
+
+      if (extend && anchor != null && anchor !== pageNumber) {
+        const from = Math.min(anchor, pageNumber)
+        const to = Math.max(anchor, pageNumber)
+        for (let n = from; n <= to; n += 1) {
+          if (marking) next.add(n)
+          else next.delete(n)
+        }
+      } else if (marking) {
+        next.add(pageNumber)
+      } else {
+        next.delete(pageNumber)
+      }
+
+      return withSelection(state, next)
+    }
+
+    case 'mark':
+      if (state.pageCount === 0) return state
+      return withSelection(state, new Set(state.removed).add(action.pageNumber))
+
+    case 'invert': {
+      const next = new Set()
+      for (let n = 1; n <= state.pageCount; n += 1) {
+        if (!state.removed.has(n)) next.add(n)
+      }
+      return withSelection(state, next)
+    }
+
+    case 'clear':
+      if (state.removed.size === 0) return state
+      return withSelection(state, new Set())
 
     case 'undo': {
       if (state.past.length === 0) return state
@@ -183,59 +217,32 @@ export function usePdfEditor() {
     [dispose],
   )
 
-  const select = useCallback((removed) => dispatch({ type: 'select', removed }), [])
-
   const allNumbers = useMemo(
     () => Array.from({ length: state.pageCount }, (_, i) => i + 1),
     [state.pageCount],
   )
 
   /**
-   * Clicking a page toggles it. Shift-clicking applies the same result to the
-   * whole run between the previous click and this one.
+   * Clicking a page toggles it; shift-clicking applies that same result to the
+   * whole run back to the previous click. Kept dispatch-only so its identity is
+   * stable across renders and the memoized page grid stays cheap.
    */
-  const togglePage = useCallback(
-    (pageNumber, extend = false) => {
-      const anchor = anchorRef.current
-      anchorRef.current = pageNumber
+  const togglePage = useCallback((pageNumber, extend = false) => {
+    const anchor = anchorRef.current
+    anchorRef.current = pageNumber
+    dispatch({ type: 'toggle', pageNumber, extend, anchor })
+  }, [])
 
-      const next = new Set(state.removed)
-      const marking = !state.removed.has(pageNumber)
+  const markFirst = useCallback(() => dispatch({ type: 'mark', pageNumber: 1 }), [])
 
-      if (extend && anchor != null && anchor !== pageNumber) {
-        const from = Math.min(anchor, pageNumber)
-        const to = Math.max(anchor, pageNumber)
-        for (let n = from; n <= to; n += 1) {
-          if (marking) next.add(n)
-          else next.delete(n)
-        }
-      } else if (marking) {
-        next.add(pageNumber)
-      } else {
-        next.delete(pageNumber)
-      }
-
-      select(next)
-    },
-    [select, state.removed],
+  const markLast = useCallback(
+    () => dispatch({ type: 'mark', pageNumber: state.pageCount }),
+    [state.pageCount],
   )
 
-  const markFirst = useCallback(() => {
-    if (state.pageCount > 0) select(new Set(state.removed).add(1))
-  }, [select, state.pageCount, state.removed])
+  const invert = useCallback(() => dispatch({ type: 'invert' }), [])
 
-  const markLast = useCallback(() => {
-    if (state.pageCount > 0) select(new Set(state.removed).add(state.pageCount))
-  }, [select, state.pageCount, state.removed])
-
-  const markAll = useCallback(() => select(new Set(allNumbers)), [allNumbers, select])
-
-  const invert = useCallback(
-    () => select(new Set(allNumbers.filter((n) => !state.removed.has(n)))),
-    [allNumbers, select, state.removed],
-  )
-
-  const clearMarks = useCallback(() => select(new Set()), [select])
+  const clearMarks = useCallback(() => dispatch({ type: 'clear' }), [])
 
   const undo = useCallback(() => dispatch({ type: 'undo' }), [])
 
@@ -297,7 +304,6 @@ export function usePdfEditor() {
     togglePage,
     markFirst,
     markLast,
-    markAll,
     invert,
     clearMarks,
     undo,

@@ -1,0 +1,196 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 7px 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition:
+    box-shadow var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--text-faint);
+}
+
+.toggle {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: var(--page-ratio, 0.7727);
+  overflow: hidden;
+  background: var(--thumb-bg);
+  border: 1px solid var(--line-soft);
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: var(--thumb-mix);
+  transition: filter var(--dur) var(--ease);
+}
+
+.failed {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+  padding: var(--s3);
+  color: var(--text-faint);
+  text-align: center;
+  font-size: 11.5px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.tick {
+  display: grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: transparent;
+  background: var(--surface);
+  transition: all var(--dur) var(--ease);
+}
+
+.card:hover .tick {
+  border-color: var(--text-faint);
+  color: var(--text-faint);
+}
+
+/* --- removed state --- */
+
+.removed {
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+  background: color-mix(in srgb, var(--danger) 6%, var(--surface));
+}
+
+.removed .frame img {
+  filter: grayscale(0.75) contrast(0.9);
+  opacity: 0.55;
+}
+
+.removed .footer {
+  color: var(--danger);
+}
+
+.removed .tick,
+.removed:hover .tick {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: var(--on-accent);
+}
+
+.stamp {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  translate: -50% -50%;
+  padding: 3px 11px;
+  border: 2.5px solid var(--danger);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--danger);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* --- zoom affordance --- */
+
+.zoom {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--text-soft);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.card:hover .zoom,
+.zoom:focus-visible {
+  opacity: 1;
+}
+
+.zoom:hover {
+  color: var(--text);
+  border-color: var(--text-faint);
+}
+
+/* --- placeholder while the page is still rendering --- */
+
+.skeleton {
+  border-style: dashed;
+  box-shadow: none;
+  cursor: default;
+  opacity: 0.65;
+}
+
+.skeletonFrame {
+  background: linear-gradient(
+    100deg,
+    var(--surface-sunk) 30%,
+    var(--surface-hover) 50%,
+    var(--surface-sunk) 70%
+  );
+  background-size: 300% 100%;
+  animation: shimmer 1.5s var(--ease) infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
